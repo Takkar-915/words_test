@@ -1,4 +1,15 @@
 import pandas as pd
+import random
+
+# 辞書型をシャッフルする関数
+
+
+def shuggleDict(d):
+    keys = list(d.keys())
+    random.shuffle(keys)
+    new_list = [(key, d[key]) for key in keys]
+    return dict(new_list)
+
 
 # csvファイルの読み込み
 file = open("./BBC_words.csv", "r", encoding="utf-8", newline="")
@@ -12,14 +23,16 @@ test_data = {}
 for i in range(len(df)):
     test_data[df.at[i, '単語']] = df.at[i, '意味']
 
+new_test_data = shuggleDict(test_data)
+
 # テスト開始
 correctSum = 0
-questionSum = len(test_data)
+questionSum = len(new_test_data)
 wrong_question = []  # 間違った単語を記録
 
 print("英単語テストを開始します\n")
-for key in test_data:
-    correctAnswer = test_data[key]
+for key in new_test_data:
+    correctAnswer = new_test_data[key]
     ans = input(key + "の意味を入力してください:")
     if ans == correctAnswer:
         print("正解！")
